@@ -1,0 +1,2 @@
+Heroku: https://tranquil-mountain-17617.herokuapp.com/movies
+Github: https://github.com/chu-xi/hw-rails-intro
