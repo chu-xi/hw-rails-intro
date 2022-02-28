@@ -7,16 +7,12 @@ class MoviesController < ApplicationController
     end
   
     def index
-      order = params[:sort_by]
-      if order == nil 
-        @movies = Movie.all()
+      @all_ratings = %w[G PG PG-13 R]
+      rating_filter = params[:ratings]
+      if rating_filter != nil
+        @movies = Movie.with_ratings(rating_filter)
       else
-        @movies = Movie.all().order(order)
-        if order == 'title'
-          @title_hilite = 'bg-warning'
-        elsif order == 'release_date'
-          @date_hilite = 'bg-warning'
-        end 
+        @movies = Movie.all
       end
     end
   
