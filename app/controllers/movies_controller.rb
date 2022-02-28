@@ -10,22 +10,27 @@ class MoviesController < ApplicationController
       @all_ratings = %w[G PG PG-13 R]
       rating_filter = params[:ratings]
       if rating_filter != nil
-        @movies = Movie.with_ratings(rating_filter)
-      else
-        # if not set rating, check sorting
-        order = params[:sort_by]
-        if order == nil 
-          @movies = Movie.all()
-        else
-          @movies = Movie.all().order(order)
-          if order == 'title'
-            @title_hilite = 'bg-warning'
-          elsif order == 'release_date'
-            @date_hilite = 'bg-warning'
-          end 
-        end
+        session[:rating_filter] = rating_filter
       end
-
+      @rating_filter = session[:rating_filter]
+      order = params[:sort_by]
+      if order != nil 
+        session[:order] = order
+      end
+      
+      if session[:order] == nil
+        @movies = Movie.all()
+      else
+        @movies = Movie.all().order(session[:order])
+        if session[:order] == 'title'
+          @title_hilite = 'bg-warning'
+        elsif session[:order] == 'release_date'
+          @date_hilite = 'bg-warning'
+        end 
+      end
+      if session[:rating_filter] != nil
+        @movies = @movies.select{ |movie| session[:rating_filter].include? movie.rating}
+      end
     end
   
     def new

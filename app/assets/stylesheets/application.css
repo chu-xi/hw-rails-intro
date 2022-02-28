@@ -13,3 +13,9 @@
  *= require_tree .
  *= require_self
  */
+.form-check-input {
+    position: absolute;
+    border: 10px;
+    width: 40px;
+    text-align: center;
+}
