@@ -12,7 +12,11 @@ class MoviesController < ApplicationController
       if rating_filter != nil
         session[:rating_filter] = rating_filter
       end
-      @rating_filter = session[:rating_filter]
+      if session[:rating_filter]==nil
+        @rating_filter = @all_ratings
+      else
+        @rating_filter = session[:rating_filter]
+      end
       order = params[:sort_by]
       if order != nil 
         session[:order] = order
