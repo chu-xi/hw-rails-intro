@@ -12,8 +12,20 @@ class MoviesController < ApplicationController
       if rating_filter != nil
         @movies = Movie.with_ratings(rating_filter)
       else
-        @movies = Movie.all
+        # if not set rating, check sorting
+        order = params[:sort_by]
+        if order == nil 
+          @movies = Movie.all()
+        else
+          @movies = Movie.all().order(order)
+          if order == 'title'
+            @title_hilite = 'bg-warning'
+          elsif order == 'release_date'
+            @date_hilite = 'bg-warning'
+          end 
+        end
       end
+
     end
   
     def new
